@@ -11,17 +11,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{89265A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infraestructure", "Infraestructure", "{756F495F-0222-4428-8480-3B26CF7B1BDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dm-api.Infrastructure", "dm-api.Infraestructure\dm-api.Infrastructure.csproj", "{81D8E081-6931-43D7-901B-3AF04EB3B1DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dm-api.Infrastructure", "dm-api.Infraestructure\dm-api.Infrastructure.csproj", "{81D8E081-6931-43D7-901B-3AF04EB3B1DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dm-api.Domain", "dm-api.Domain\dm-api.Domain.csproj", "{29A090DC-3C96-43CB-B414-463CFE3B9018}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dm-api.Domain", "dm-api.Domain\dm-api.Domain.csproj", "{29A090DC-3C96-43CB-B414-463CFE3B9018}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dm-api.Domain.Core", "dm-api.Domain.Core\dm-api.Domain.Core.csproj", "{51A9CB6B-5978-4D5C-AD00-2DB21FC6153F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dm-api.Domain.Core", "dm-api.Domain.Core\dm-api.Domain.Core.csproj", "{51A9CB6B-5978-4D5C-AD00-2DB21FC6153F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dm-api.Domain.Service", "dm-api.Domain.Service\dm-api.Domain.Service.csproj", "{3E117F24-02C1-494F-8DFC-95D061FF99EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dm-api.Domain.Service", "dm-api.Domain.Service\dm-api.Domain.Service.csproj", "{3E117F24-02C1-494F-8DFC-95D061FF99EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dm-api.Application", "dm-api.Application\dm-api.Application.csproj", "{55A269EC-CBBB-4D26-869E-B70392540C0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dm-api.Application", "dm-api.Application\dm-api.Application.csproj", "{55A269EC-CBBB-4D26-869E-B70392540C0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dm-api.Api", "dm-api.Api\dm-api.Api.csproj", "{EDDDE3A4-C5AF-4689-A639-1E661EDCFFB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dm-api.Api", "dm-api.Api\dm-api.Api.csproj", "{EDDDE3A4-C5AF-4689-A639-1E661EDCFFB8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B68A6248-2EB7-4216-86FD-D821419C6EE9}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
