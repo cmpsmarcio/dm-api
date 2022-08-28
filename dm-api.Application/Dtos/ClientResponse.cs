@@ -1,11 +1,14 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-using System.ComponentModel;
-
-namespace dm_api.Domain.Entities
+namespace dm_api.Application.Dtos
 {
-    public class Client: Base
+    public class ClientResponse
     {
+        public Guid Id { get; set; }
         public string FullName { get; set; }
         public DateTime? BirthDate { get; set; }
         public string? MobilePhone { get; set; }

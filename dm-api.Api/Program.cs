@@ -1,9 +1,16 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using dm_api.Infraestructure.CrossCutting.IoC;
+using dm_api.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+builder.Services.AddDbContext<SqlContext>(
+    options => options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"))
+    );
 
 // Add services to the container.
 

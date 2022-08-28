@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using dm_api.Application.Dtos;
+using dm_api.Application.Exceptions;
 using dm_api.Application.Interfaces;
 using dm_api.Domain.Core.Interfaces.Services;
 using dm_api.Domain.Entities;
@@ -22,34 +23,47 @@ namespace dm_api.Application
             _mapper = mapper;
         }
 
-        public void Add(ClientDto clientDto)
+        public void Add(ClientRequest clientRequest)
         {
-            Client client = _mapper.Map<Client>(clientDto);
+            Client client = _mapper.Map<Client>(clientRequest);
             _serviceClient.Add(client);
         }
 
-        public void Delete(ClientDto clientDto)
+        public void Delete(Guid id)
         {
-            Client client = _mapper.Map<Client>(clientDto);
+            Client client = _serviceClient.Get(id);
+
+            if (client == null)
+                throw new EntityNotFoundException("Client not found");    
+
             _serviceClient.Delete(client);
         }
 
-        public ClientDto Get(Guid id)
+        public ClientResponse Get(Guid id)
         {
             Client client = _serviceClient.Get(id);
-            return _mapper.Map<ClientDto>(client);
+            return _mapper.Map<ClientResponse>(client);
         }
 
-        public IEnumerable<ClientDto> GetAll()
+        public IEnumerable<ClientResponse> GetAll()
         {
             IEnumerable<Client> client = _serviceClient.GetAll();
-            return _mapper.Map<IEnumerable<ClientDto>>(client);
+            return _mapper.Map<IEnumerable<ClientResponse>>(client);
         }
 
-        public void Update(ClientDto clientDto)
+        public void Update(Guid id, ClientRequest client)
         {
-            Client client = _mapper.Map<Client>(clientDto);
-            _serviceClient.Update(client);
+            Client modelClient = _serviceClient.Get(id);
+
+            if (modelClient == null)
+                throw new EntityNotFoundException("Client not found!");
+
+            modelClient.FullName = client.FullName;
+            modelClient.BirthDate = client.BirthDate;
+            modelClient.Email = client.Email;
+            modelClient.MobilePhone = client.MobilePhone;
+            
+            _serviceClient.Update(modelClient);
         }
     }
 }

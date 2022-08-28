@@ -24,8 +24,8 @@ namespace dm_api.Infraestructure.CrossCutting.IoC
             container.RegisterType<RepositoryClient>().As<IRepositoryClient>();
             container.Register(ctx => new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile(new DtoToModelClient());
-                cfg.AddProfile(new ModelToDtoClient());
+                cfg.AddProfile(new ClientRequestToModelClient());
+                cfg.AddProfile(new ModelClientToClientResponse());
             }
             ));
 

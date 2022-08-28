@@ -1,4 +1,5 @@
 ﻿using dm_api.Application.Dtos;
+using dm_api.Application.Exceptions;
 using dm_api.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,66 +17,71 @@ namespace dm_api.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<IEnumerable<ClientResponse>> Get()
         {
             return Ok(_applicationServiceClient.GetAll());
         }
 
         [HttpGet("{id}")]
-        public ActionResult<string> Get(Guid id)
+        public ActionResult<ClientResponse> Get(Guid id)
         {
             return Ok(_applicationServiceClient.Get(id));
         }
 
         [HttpPost]
-        public ActionResult Post([FromBody] ClientDto clientDto)
+        public ActionResult Post([FromBody] ClientRequest client)
         {
             try
             {
-                if (clientDto == null)
+                if (client == null)
                     return BadRequest();
 
-                _applicationServiceClient.Add(clientDto);
+                _applicationServiceClient.Add(client);
 
                 return Ok("Success");
             }
             catch (Exception ex)
             {
-                throw ex;
+                return StatusCode(500, ex.Message);
             }
         }
 
-        [HttpPut]
-        public ActionResult Put([FromBody] ClientDto clientDto)
+        [HttpPut("{id}")]
+        public ActionResult Put(Guid id, [FromBody] ClientRequest client)
         {
             try
             {
-                if (clientDto == null)
+                if (client == null)
                     return BadRequest();
 
-                _applicationServiceClient.Update(clientDto);
+                _applicationServiceClient.Update(id, client);
                 return Ok("Success");
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (Exception ex)
             {
-                throw ex;
+                return StatusCode(500, ex.Message);
             }
         }
 
-        [HttpDelete]
-        public ActionResult Delete([FromBody] ClientDto clientDto)
+        [HttpDelete("{id}")]
+        public ActionResult Delete(Guid id)
         {
             try
-            {
-                if (clientDto == null)
-                    return BadRequest();
-
-                _applicationServiceClient.Delete(clientDto);
+            { 
+                _applicationServiceClient.Delete(id);
                 return Ok("Success");
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (Exception ex)
             {
-                throw ex;
+                return StatusCode(500, ex.Message);
             }
         }
     }

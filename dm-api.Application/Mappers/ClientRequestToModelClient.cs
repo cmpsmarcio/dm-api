@@ -9,22 +9,22 @@ using System.Threading.Tasks;
 
 namespace dm_api.Application.Mappers
 {
-    public class DtoToModelClient: Profile
+    public class ClientRequestToModelClient : Profile
     {
-        public DtoToModelClient()
+        public ClientRequestToModelClient()
         {
             ClientMap();
         }
 
         private void ClientMap()
         {
-            CreateMap<ClientDto, Client>()
-                .ForMember(dest => dest.Id, opt => opt.Ignore())
-                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(x => x.FullName))
+            CreateMap<ClientRequest, Client>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(x => Guid.NewGuid()))
+                .ForMember(dest => dest.FullName, opt => opt.MapFrom(x => x.FullName))
                 .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(x => x.BirthDate))
                 .ForMember(dest => dest.MobilePhone, opt => opt.MapFrom(x => x.MobilePhone))
-                .ForMember(dest => dest.email, opt => opt.MapFrom(x => x.email))
-                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore());
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(x => x.Email))
+                .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(x => DateTime.Now));
         }
     }
 }
