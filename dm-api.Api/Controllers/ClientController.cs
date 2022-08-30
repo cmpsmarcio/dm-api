@@ -36,6 +36,9 @@ namespace dm_api.Api.Controllers
                 if (client == null)
                     return BadRequest();
 
+                if (!ModelState.IsValid)
+                    return StatusCode(StatusCodes.Status400BadRequest, ModelState);
+
                 _applicationServiceClient.Add(client);
 
                 return Ok("Success");
@@ -53,6 +56,9 @@ namespace dm_api.Api.Controllers
             {
                 if (client == null)
                     return BadRequest();
+
+                if (!ModelState.IsValid)
+                    return StatusCode(StatusCodes.Status400BadRequest, ModelState);
 
                 _applicationServiceClient.Update(id, client);
                 return Ok("Success");
