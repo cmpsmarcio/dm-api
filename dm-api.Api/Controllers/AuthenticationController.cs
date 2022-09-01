@@ -1,8 +1,6 @@
 ﻿using dm_api.Application.Dtos;
 using dm_api.Application.Exceptions;
 using dm_api.Application.Interfaces;
-using dm_api.Domain.Entities;
-using dm_api.Domain.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,12 +10,10 @@ namespace dm_api.Api.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        private readonly IApplicationServiceUser _applicationServiceUser;
         private readonly IApplicationServiceToken _applicationServiceToken;
 
-        public AuthenticationController(IApplicationServiceUser applicationServiceUser, IApplicationServiceToken applicationServiceToken)
+        public AuthenticationController(IApplicationServiceToken applicationServiceToken)
         {
-            this._applicationServiceUser = applicationServiceUser;
             this._applicationServiceToken = applicationServiceToken;
         }
 
@@ -27,12 +23,7 @@ namespace dm_api.Api.Controllers
         {
             try
             {
-                User user = _applicationServiceUser.GetUser(userRequest.Username, userRequest.Password);
-
-                if (user == null)
-                    return BadRequest(new { message = "Invalid user" });
-
-                var token = _applicationServiceToken.GenerateToken(user);
+                var token = _applicationServiceToken.GenerateToken(userRequest);
 
                 return Ok(new
                 {
