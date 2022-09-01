@@ -16,5 +16,6 @@ namespace dm_api.Infrastructure.Data
         }
 
         DbSet<Client> Clients { get; set; }
+        DbSet<User> Users { get; set; }
     }
 }
