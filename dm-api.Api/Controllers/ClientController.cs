@@ -1,6 +1,7 @@
 ﻿using dm_api.Application.Dtos;
 using dm_api.Application.Exceptions;
 using dm_api.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dm_api.Api.Controllers
@@ -17,19 +18,22 @@ namespace dm_api.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<ClientResponse>> Get()
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<ClientResponse>>> Get()
         {
             return Ok(_applicationServiceClient.GetAll());
         }
 
         [HttpGet("{id}")]
-        public ActionResult<ClientResponse> Get(Guid id)
+        [Authorize]
+        public async Task<ActionResult<ClientResponse>> Get(Guid id)
         {
             return Ok(_applicationServiceClient.Get(id));
         }
 
         [HttpPost]
-        public ActionResult Post([FromBody] ClientRequest client)
+        [Authorize(Roles = "adm")]
+        public async Task<ActionResult> Post([FromBody] ClientRequest client)
         {
             try
             {
@@ -50,7 +54,8 @@ namespace dm_api.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult Put(Guid id, [FromBody] ClientRequest client)
+        [Authorize(Roles = "adm")]
+        public async Task<ActionResult> Put(Guid id, [FromBody] ClientRequest client)
         {
             try
             {
@@ -74,7 +79,8 @@ namespace dm_api.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public ActionResult Delete(Guid id)
+        [Authorize(Roles = "adm")]
+        public async Task<ActionResult> Delete(Guid id)
         {
             try
             { 

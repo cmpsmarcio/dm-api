@@ -12,7 +12,8 @@ namespace dm_api.Infraestructure.Data.Repositories
     public class RepositoryClient : RepositoryBase<Client>, IRepositoryClient
     {
         private readonly SqlContext _context;
-        public RepositoryClient(SqlContext context) : base(context)
+        public RepositoryClient(SqlContext context) 
+            : base(context)
         {
             _context = context;
         }
