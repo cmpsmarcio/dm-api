@@ -14,23 +14,27 @@ namespace dm_api.Domain.Service
 {
     public class TokenService: ITokenService
     {
-        private readonly IConfiguration _config;
+        private readonly ISettings _config;
 
-        public TokenService(IConfiguration config)
+        public TokenService(ISettings config)
         {
             this._config = config;
         }
         public string GenerateToken(User user)
         { 
             var tokenHandler = new JwtSecurityTokenHandler();
-            byte[] key = Encoding.ASCII.GetBytes(_config.GetSecret());
+            byte[] key = Encoding.ASCII.GetBytes(_config.JwtSecret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.Username),
+                    new Claim("sub", user.Id.ToString()),
+                    new Claim(ClaimTypes.Email, user.Username),
                     new Claim(ClaimTypes.Role, "adm")
                 }),
+                Audience = _config.JwtAudience,
+                Issuer = _config.JwtIssuer,
+                Claims = new Dictionary<string, object>() { { "job", new { jobName = "name" } } },
                 Expires = DateTime.UtcNow.AddHours(8),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };

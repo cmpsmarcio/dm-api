@@ -26,6 +26,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B68A6248-2EB7-4216-86FD-D821419C6EE9}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		dm-api.Application\Diagrama.cd = dm-api.Application\Diagrama.cd
 		README.md = README.md
 	EndProjectSection
 EndProject

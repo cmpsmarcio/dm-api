@@ -1,6 +1,6 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using dm_api.Infraestructure.CrossCutting.Config;
+//using dm_api.Infraestructure.CrossCutting.Config;
 using dm_api.Infraestructure.CrossCutting.IoC;
 using dm_api.Infrastructure.Data;
 using FluentValidation.AspNetCore;
@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using static System.Net.Mime.MediaTypeNames;
+using Microsoft.AspNetCore.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +21,7 @@ builder.Services.AddDbContext<SqlContext>(
 // Add services to the container.
 builder.Services.AddControllers();
 
-var key = Encoding.ASCII.GetBytes(new Configuration().GetSecret());
+var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]);
 
 builder.Services.AddAuthentication(x =>
     {
@@ -33,8 +35,10 @@ builder.Services.AddAuthentication(x =>
         {
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(key),
-            ValidateIssuer = false,
-            ValidateAudience = false
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"]
         };
     });
 
@@ -85,6 +89,34 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI(x => x.SwaggerEndpoint("/swagger/v1/swagger.json", "DM API"));
+}
+
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler(exceptionHandler =>
+    {
+        exceptionHandler.Run(async context =>
+        {
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            context.Response.ContentType = Text.Plain;
+            await context.Response.WriteAsync("An exception was throw");
+
+            IExceptionHandlerPathFeature? exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
+
+            if(exceptionHandlerPathFeature?.Error is FileNotFoundException)
+            {
+                await context.Response.WriteAsync("The file was not found");
+            }
+
+            if (exceptionHandlerPathFeature?.Path == "/")
+            {
+                await context.Response.WriteAsync("Page : Home");
+            }
+        });
+    });
+
+    app.UseHsts();
 }
 
 app.UseHttpsRedirection();

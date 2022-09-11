@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace dm_api.Domain.Core.Interfaces.Config
 {
-    public interface IConfiguration
+    public interface ISettings
     {
-        string GetSecret();
+        string JwtSecret { get; }
+        string JwtAudience { get; }
+        string JwtIssuer { get; }
     }
 }

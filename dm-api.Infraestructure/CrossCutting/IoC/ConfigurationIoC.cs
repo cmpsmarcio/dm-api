@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace dm_api.Infraestructure.CrossCutting.IoC
 {
@@ -24,7 +25,7 @@ namespace dm_api.Infraestructure.CrossCutting.IoC
     {
         public static void Load(ContainerBuilder container)
         {
-            container.RegisterType<Configuration>().As<IConfiguration>();
+            container.RegisterType<Settings>().As<ISettings>();
             // Services
             container.RegisterType<ApplicationServiceClient>().As<IApplicationServiceClient>();
             container.RegisterType<ApplicationServiceUser>().As<IApplicationServiceUser>();
