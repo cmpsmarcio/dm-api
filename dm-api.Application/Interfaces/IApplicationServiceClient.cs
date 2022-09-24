@@ -1,4 +1,4 @@
-﻿using dm_api.Application.Dtos;
+﻿using dm_api.Application.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

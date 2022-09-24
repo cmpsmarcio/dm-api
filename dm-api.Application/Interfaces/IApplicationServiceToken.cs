@@ -1,4 +1,4 @@
-﻿using dm_api.Application.Dtos;
+﻿using dm_api.Application.Models;
 
 namespace dm_api.Application.Interfaces
 {

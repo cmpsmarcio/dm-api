@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using dm_api.Application.Dtos;
+using dm_api.Application.Models;
 using dm_api.Domain.Entities;
 using System;
 using System.Collections.Generic;

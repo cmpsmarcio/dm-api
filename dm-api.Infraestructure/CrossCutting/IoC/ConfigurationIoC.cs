@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using AutoMapper;
 using dm_api.Application;
-using dm_api.Application.Dtos;
+using dm_api.Application.Models;
 using dm_api.Application.Interfaces;
 using dm_api.Application.Mappers;
 using dm_api.Application.Validations;

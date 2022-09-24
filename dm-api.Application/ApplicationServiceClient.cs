@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using dm_api.Application.Dtos;
+using dm_api.Application.Models;
 using dm_api.Application.Exceptions;
 using dm_api.Application.Interfaces;
 using dm_api.Domain.Core.Interfaces.Services;
@@ -42,6 +42,10 @@ namespace dm_api.Application
         public ClientResponse Get(Guid id)
         {
             Client client = _serviceClient.Get(id);
+
+            if (client == null)
+                throw new EntityNotFoundException("Client not found");
+
             return _mapper.Map<ClientResponse>(client);
         }
 

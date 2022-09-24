@@ -1,4 +1,4 @@
-﻿using dm_api.Application.Dtos;
+﻿using dm_api.Application.Models;
 using dm_api.Application.Exceptions;
 using dm_api.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -8,7 +8,7 @@ namespace dm_api.Api.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class ClientController : ControllerBase
+    public class ClientController : BaseController
     {
         private readonly IApplicationServiceClient _applicationServiceClient;
 
@@ -19,82 +19,49 @@ namespace dm_api.Api.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<IEnumerable<ClientResponse>>> Get()
+        public ActionResult<IEnumerable<ClientResponse>> Get()
         {
-            return Ok(_applicationServiceClient.GetAll());
+            return CreateResponse(() => _applicationServiceClient.GetAll());
         }
 
         [HttpGet("{id}")]
         [Authorize]
-        public async Task<ActionResult<ClientResponse>> Get(Guid id)
+        public ActionResult<ClientResponse> Get(Guid id)
         {
-            return Ok(_applicationServiceClient.Get(id));
+            return CreateResponse(() => _applicationServiceClient.Get(id));
         }
 
         [HttpPost]
         [Authorize(Roles = "adm")]
-        public async Task<ActionResult> Post([FromBody] ClientRequest client)
+        public ActionResult Post([FromBody] ClientRequest client)
         {
-            try
-            {
-                if (client == null)
-                    return BadRequest();
+            if (client == null)
+                return BadRequest();
 
-                if (!ModelState.IsValid)
-                    return StatusCode(StatusCodes.Status400BadRequest, ModelState);
+            if (!ModelState.IsValid)
+                return StatusCode(StatusCodes.Status400BadRequest, ModelState);
 
-                _applicationServiceClient.Add(client);
-
-                return Ok("Success");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+            return CreateResponse(() => _applicationServiceClient.Add(client));
         }
 
         [HttpPut("{id}")]
         [Authorize(Roles = "adm")]
-        public async Task<ActionResult> Put(Guid id, [FromBody] ClientRequest client)
+        public ActionResult Put(Guid id, [FromBody] ClientRequest client)
         {
-            try
-            {
-                if (client == null)
-                    return BadRequest();
+            if (client == null)
+                return BadRequest();
 
-                if (!ModelState.IsValid)
-                    return StatusCode(StatusCodes.Status400BadRequest, ModelState);
+            if (!ModelState.IsValid)
+                return StatusCode(StatusCodes.Status400BadRequest, ModelState);
 
-                _applicationServiceClient.Update(id, client);
-                return Ok("Success");
-            }
-            catch (EntityNotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+            return CreateResponse(() => _applicationServiceClient.Update(id, client));
         }
 
         [HttpDelete("{id}")]
         [Authorize(Roles = "adm")]
-        public async Task<ActionResult> Delete(Guid id)
+        public ActionResult Delete(Guid id)
         {
-            try
-            { 
-                _applicationServiceClient.Delete(id);
-                return Ok("Success");
-            }
-            catch (EntityNotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+            return CreateResponse(() => _applicationServiceClient.Delete(id));
         }
     }
 }
